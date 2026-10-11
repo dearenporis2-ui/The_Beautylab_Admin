@@ -70,7 +70,26 @@
   }
   .side-nav button:hover{background:rgba(255,255,255,.06); color:#fff;}
   .side-nav button.active{background:var(--gold); color:#fff;}
-  .side-foot{margin-top:auto; padding-top:20px; border-top:1px solid rgba(255,255,255,.12);}
+  .side-foot{margin-top:16px; padding-top:20px; border-top:1px solid rgba(255,255,255,.12);}
+  .side-nav button{display:flex; align-items:center; justify-content:space-between;}
+  .nav-badge{
+    display:none; align-items:center; justify-content:center; min-width:20px; height:20px; padding:0 6px;
+    border-radius:999px; background:var(--gold); color:#fff; font-size:11px; font-weight:700;
+  }
+  .nav-badge.show{display:inline-flex; animation:badgePop .4s ease;}
+  @keyframes badgePop{0%{transform:scale(.4);}60%{transform:scale(1.25);}100%{transform:scale(1);}}
+
+  .side-alerts{
+    margin-top:auto; padding:14px; background:rgba(255,255,255,.06); border-radius:10px;
+    color:var(--stone-light); font-size:12px; line-height:1.5;
+  }
+  .side-alerts button{
+    width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--gold-soft);
+    color:var(--cream); font-size:12.5px; font-weight:700; transition:background .2s ease;
+  }
+  .side-alerts button:hover{background:var(--gold); border-color:var(--gold);}
+  .side-alerts button.on{background:rgba(78,122,82,.25); border-color:#6FA574;}
+  .side-alerts small{display:block; margin-top:8px; color:var(--stone-light); opacity:.85;}
   .side-foot button{color:var(--stone-light); font-size:12.5px; font-weight:600;}
   .side-foot button:hover{color:#fff;}
 
@@ -103,6 +122,11 @@
   .appt-client{font-size:13.5px;}
   .appt-client small{display:block; color:var(--stone); font-size:12px; margin-top:2px;}
   .appt-actions{display:flex; gap:8px; align-items:center;}
+  .appt-note{
+    grid-column:1 / -1; margin-top:2px; padding:10px 14px; background:var(--cream-2);
+    border-radius:7px; font-size:13px; color:var(--ink); line-height:1.5;
+    white-space:pre-wrap; word-break:break-word;
+  }
   .badge{padding:4px 10px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;}
   .badge.confirmed{background:#E4F0E5; color:var(--green);}
   .badge.completed{background:var(--gold-tint); color:var(--gold);}
@@ -114,6 +138,8 @@
   }
   .icon-btn:hover{background:var(--cream-2); color:var(--ink);}
   .icon-btn.danger:hover{background:#F5E2DF; color:var(--red); border-color:var(--red);}
+  .icon-btn.whatsapp-btn{color:#25D366;}
+  .icon-btn.whatsapp-btn:hover{background:#E5F8ED; color:#1DA851; border-color:#25D366;}
   .empty-msg{color:var(--stone); font-style:italic; font-family:var(--serif); padding:30px 0; text-align:center;}
   @media(max-width:900px){ .appt-row{grid-template-columns:1fr; gap:8px;} .stat-row{grid-template-columns:1fr 1fr;} }
 
@@ -148,6 +174,33 @@
   .blocked-list{display:flex; flex-direction:column; gap:8px; margin-top:14px;}
   .blocked-row{display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--stone-light); border-radius:8px; padding:10px 16px; font-size:13.5px;}
 
+  /* ---------- New-booking alerts ---------- */
+  .alert-stack{
+    position:fixed; top:20px; right:20px; z-index:1500; display:flex; flex-direction:column; gap:10px;
+    width:340px; max-width:calc(100vw - 40px); pointer-events:none;
+  }
+  .booking-alert{
+    pointer-events:auto; display:flex; gap:12px; align-items:flex-start; cursor:pointer;
+    background:#fff; border:1px solid var(--stone-light); border-left:4px solid var(--gold);
+    border-radius:10px; padding:14px 14px 14px 16px; box-shadow:0 14px 40px rgba(46,36,21,.22);
+    animation:alertIn .45s cubic-bezier(.16,.8,.3,1);
+  }
+  .booking-alert.leaving{animation:alertOut .3s ease forwards;}
+  @keyframes alertIn{from{opacity:0; transform:translateX(40px);}to{opacity:1; transform:translateX(0);}}
+  @keyframes alertOut{to{opacity:0; transform:translateX(40px);}}
+  .ba-ico{font-size:20px; line-height:1;}
+  .ba-body{flex:1; min-width:0; font-size:13px; color:var(--stone); line-height:1.5;}
+  .ba-body b{display:block; font-family:var(--serif); font-size:16px; color:var(--ink); font-weight:500;}
+  .ba-body strong{color:var(--ink);}
+  .ba-close{color:var(--stone); font-size:14px; padding:2px 4px;}
+  .ba-close:hover{color:var(--ink);}
+  .appt-row.appt-new{border-color:var(--gold); box-shadow:0 0 0 3px rgba(169,121,63,.18); animation:newGlow 2.4s ease-out 1;}
+  .new-pill{
+    display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px; background:var(--gold);
+    color:#fff; font-family:var(--sans); font-size:10px; font-weight:700; letter-spacing:.08em; vertical-align:middle;
+  }
+  @keyframes newGlow{0%{box-shadow:0 0 0 0 rgba(169,121,63,.55);}100%{box-shadow:0 0 0 3px rgba(169,121,63,.18);}}
+
   .toast{
     position:fixed; bottom:24px; right:24px; background:var(--ink); color:var(--cream); padding:14px 22px;
     border-radius:8px; font-size:13.5px; font-weight:600; opacity:0; transform:translateY(10px);
@@ -181,10 +234,14 @@
   <aside>
     <div class="side-brand">The Beauty Lab<em>admin</em></div>
     <nav class="side-nav">
-      <button data-view="appointments" class="active">Appointments</button>
+      <button data-view="appointments" class="active"><span>Appointments</span><span class="nav-badge" id="navBadge"></span></button>
       <button data-view="services">Services</button>
       <button data-view="settings">Settings</button>
     </nav>
+    <div class="side-alerts" id="alertBox">
+      <button type="button" id="enableAlertsBtn">🔔 Turn on booking alerts</button>
+      <small id="alertStatus">Sound + pop-up the moment a client books.</small>
+    </div>
     <div class="side-foot"><button id="logoutBtn">Sign Out</button></div>
   </aside>
 
@@ -253,6 +310,7 @@
   </main>
 </div>
 
+<div class="alert-stack" id="alertStack"></div>
 <div class="toast" id="toast"></div>
 
 <!-- Firebase — replace firebaseConfig with your real project config -->
@@ -289,6 +347,183 @@
     t.className = 'toast show' + (isError ? ' error' : '');
     setTimeout(function(){ t.className = 'toast'; }, 3200);
   }
+
+
+  // ---------- New-booking alerts ----------
+  // Sound + on-screen card + nav badge + tab title + (optional) desktop
+  // notification, fired whenever a booking arrives while the dashboard is open.
+  var BASE_TITLE = document.title;
+  var unseenCount = 0;
+  var navUnseen = 0;
+  var alertAudio = null;
+  var audioCtx = null;
+
+  function getAlertAudio(){
+    if(!alertAudio){
+      alertAudio = new Audio('notification.mp3');
+      alertAudio.preload = 'auto';
+      alertAudio.addEventListener('error', function(){
+        // Admin file may live in a subfolder — try one level up before giving up
+        if(!alertAudio._triedParent){ alertAudio._triedParent = true; alertAudio.src = '../notification.mp3'; alertAudio.load(); }
+      });
+    }
+    return alertAudio;
+  }
+  function fallbackChime(){
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      audioCtx = audioCtx || new AC();
+      [880, 1175].forEach(function(freq, i){
+        var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        var t = audioCtx.currentTime + i * 0.16;
+        o.type = 'sine'; o.frequency.value = freq;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.25, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(t); o.stop(t + 0.55);
+      });
+    }catch(err){}
+  }
+  function playAlertSound(){
+    try{
+      var a = getAlertAudio();
+      a.currentTime = 0;
+      var p = a.play();
+      if(p && p.catch) p.catch(function(err){
+        // Missing file => still make some noise; autoplay-blocked => stay quiet
+        if(err && err.name === 'NotSupportedError') fallbackChime();
+      });
+    }catch(err){ fallbackChime(); }
+  }
+  // Browsers only allow sound after a click/tap. After a page reload the
+  // login session persists with no click, so quietly unlock audio on the
+  // first interaction anywhere on the page.
+  document.addEventListener('pointerdown', function primeAudio(){
+    document.removeEventListener('pointerdown', primeAudio);
+    try{
+      var a = getAlertAudio();
+      a.muted = true;
+      var p = a.play();
+      var done = function(){ try{ a.pause(); a.currentTime = 0; }catch(e){} a.muted = false; };
+      if(p && p.then) p.then(done).catch(function(){ a.muted = false; }); else done();
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(AC){ audioCtx = audioCtx || new AC(); if(audioCtx.resume) audioCtx.resume(); }
+    }catch(err){}
+  });
+
+  function updateTitle(){
+    document.title = unseenCount > 0 ? '(' + unseenCount + ') New booking · ' + BASE_TITLE : BASE_TITLE;
+  }
+  function clearTitleCount(){ unseenCount = 0; updateTitle(); }
+  window.addEventListener('focus', clearTitleCount);
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) clearTitleCount(); });
+
+  function appointmentsViewActive(){
+    var v = document.getElementById('view-appointments');
+    return !!(v && v.classList.contains('active'));
+  }
+  function bumpNavBadge(){
+    var badge = document.getElementById('navBadge');
+    if(!badge || appointmentsViewActive()) return;
+    navUnseen++;
+    badge.textContent = navUnseen;
+    badge.classList.remove('show'); void badge.offsetWidth; badge.classList.add('show');
+  }
+  (function(){
+    var navBtn = document.querySelector('.side-nav button[data-view="appointments"]');
+    if(navBtn) navBtn.addEventListener('click', function(){
+      navUnseen = 0;
+      var badge = document.getElementById('navBadge');
+      if(badge){ badge.classList.remove('show'); badge.textContent = ''; }
+    });
+  })();
+
+  function showAlertCard(a){
+    var stack = document.getElementById('alertStack');
+    if(!stack) return;
+    var card = document.createElement('div');
+    card.className = 'booking-alert';
+    card.innerHTML =
+      '<div class="ba-ico">🔔</div>' +
+      '<div class="ba-body"><b>' + (a.test ? 'Test alert' : 'New booking') + '</b>' +
+        '<strong>' + escapeHtml(a.clientName || 'A client') + '</strong> · ' + escapeHtml(a.serviceName || '') + '<br>' +
+        escapeHtml(formatDate(a.date)) + ' · ' + escapeHtml(displayTime(a.startTime)) +
+      '</div>' +
+      '<button type="button" class="ba-close" aria-label="Dismiss">✕</button>';
+    var dismiss = function(){
+      if(!card.parentNode) return;
+      card.classList.add('leaving');
+      setTimeout(function(){ if(card.parentNode) card.parentNode.removeChild(card); }, 300);
+    };
+    card.querySelector('.ba-close').addEventListener('click', function(e){ e.stopPropagation(); dismiss(); });
+    card.addEventListener('click', function(){
+      var navBtn = document.querySelector('.side-nav button[data-view="appointments"]');
+      if(navBtn) navBtn.click();
+      dismiss();
+    });
+    stack.appendChild(card);
+    while(stack.children.length > 4) stack.removeChild(stack.firstChild);
+    setTimeout(dismiss, 25000);
+  }
+
+  function showDesktopNotification(a){
+    try{
+      if(!('Notification' in window) || Notification.permission !== 'granted') return;
+      var n = new Notification(a.test ? 'Test alert — The Beauty Lab' : 'New booking — The Beauty Lab', {
+        body: (a.clientName || 'A client') + ' · ' + (a.serviceName || '') + '\n' + formatDate(a.date) + ' at ' + displayTime(a.startTime),
+        tag: a.id || 'beautylab-test'
+      });
+      n.onclick = function(){ try{ window.focus(); n.close(); }catch(e){} };
+    }catch(err){}
+  }
+
+  function notifyNewBooking(a){
+    playAlertSound();
+    showAlertCard(a);
+    showDesktopNotification(a);
+    if(a.test) return;
+    bumpNavBadge();
+    if(document.hidden || !document.hasFocus()){ unseenCount++; updateTitle(); }
+  }
+
+  (function(){
+    var btn = document.getElementById('enableAlertsBtn');
+    var status = document.getElementById('alertStatus');
+    if(!btn || !status) return;
+    function refresh(){
+      if(!('Notification' in window)){
+        btn.textContent = '🔔 Send a test alert';
+        status.textContent = 'Sound + on-screen alerts are on. (This browser has no desktop notifications.)';
+        return;
+      }
+      if(Notification.permission === 'granted'){
+        btn.textContent = '🔔 Alerts on — tap to test'; btn.classList.add('on');
+        status.textContent = 'Sound, pop-up and desktop notifications are on. Keep this tab open.';
+      }else if(Notification.permission === 'denied'){
+        btn.textContent = '🔔 Send a test alert'; btn.classList.remove('on');
+        status.textContent = 'Desktop notifications are blocked in your browser — sound + pop-ups still work.';
+      }else{
+        btn.textContent = '🔔 Turn on booking alerts'; btn.classList.remove('on');
+        status.textContent = 'Sound + pop-up the moment a client books.';
+      }
+    }
+    btn.addEventListener('click', function(){
+      var test = function(){
+        refresh();
+        notifyNewBooking({ test:true, clientName:'Sample Client', serviceName:'Signature Facial',
+          date:new Date().toISOString().split('T')[0], startTime:'10:00' });
+      };
+      if('Notification' in window && Notification.permission === 'default'){
+        var res = Notification.requestPermission(function(){ test(); });
+        if(res && res.then) res.then(test).catch(test);
+      }else{
+        test();
+      }
+    });
+    refresh();
+  })();
 
   // ---------- Auth ----------
   var loginForm = document.getElementById('loginForm');
@@ -389,9 +624,29 @@
       render();
     });
 
+    var knownIds = {};
+    var newIds = {};
+    var firstSnapshot = true;
+
     db.collection('appointments').orderBy('date').onSnapshot(function(snap){
       allAppts = [];
       snap.forEach(function(doc){ allAppts.push(Object.assign({id: doc.id}, doc.data())); });
+
+      // Alert only for genuinely NEW bookings — never for the initial load,
+      // and never twice for the same appointment (e.g. after a reconnect).
+      snap.docChanges().forEach(function(ch){
+        var id = ch.doc.id;
+        if(ch.type === 'added' && !knownIds[id] && !firstSnapshot){
+          var d = ch.doc.data();
+          if(!d.status || d.status === 'confirmed'){
+            newIds[id] = true;
+            setTimeout(function(){ delete newIds[id]; }, 10 * 60 * 1000);
+            notifyNewBooking(Object.assign({id: id}, d));
+          }
+        }
+        knownIds[id] = true;
+      });
+      firstSnapshot = false;
       allAppts.sort(function(a, b){
         if(a.date !== b.date) return a.date < b.date ? -1 : 1;
         return (a.startTime || '').localeCompare(b.startTime || '');
@@ -431,13 +686,22 @@
         var row = document.createElement('div');
         row.className = 'appt-row';
         var statusClass = (a.status || 'confirmed').replace(' ','-');
+        var isNew = !!newIds[a.id];
+        if(isNew){
+          row.classList.add('appt-new');
+          row.addEventListener('click', function(){ delete newIds[a.id]; row.classList.remove('appt-new'); var pill = row.querySelector('.new-pill'); if(pill) pill.remove(); });
+        }
         row.innerHTML =
           '<div class="appt-when"><b>' + formatDate(a.date) + '</b><span>' + displayTime(a.startTime) + ' – ' + displayTime(a.endTime) + '</span></div>' +
-          '<div class="appt-service">' + escapeHtml(a.serviceName || '') + '<small>' + (a.duration || '') + ' min</small></div>' +
+          '<div class="appt-service">' + escapeHtml(a.serviceName || '') + (isNew ? '<span class="new-pill">NEW</span>' : '') + '<small>' + (a.duration || '') + ' min</small></div>' +
           '<div class="appt-client">' + escapeHtml(a.clientName || '') + '<small>' + escapeHtml(a.clientPhone || '') + ' · ' + escapeHtml(a.clientEmail || '') + '</small></div>' +
-          '<div class="appt-actions"><span class="badge ' + statusClass + '">' + (a.status || 'confirmed') + '</span></div>';
+          '<div class="appt-actions"><span class="badge ' + statusClass + '">' + (a.status || 'confirmed') + '</span></div>' +
+          (a.notes ? '<div class="appt-note">📝 ' + escapeHtml(a.notes) + '</div>' : '');
 
         var actionsCell = row.querySelector('.appt-actions');
+        if(a.clientPhone){
+          actionsCell.appendChild(makeWhatsAppBtn(a));
+        }
         if(a.status === 'confirmed'){
           actionsCell.appendChild(makeIconBtn('✓', 'Mark completed', function(){ setStatus(a.id, 'completed'); }));
           actionsCell.appendChild(makeIconBtn('–', 'Mark no-show', function(){ setStatus(a.id, 'no-show'); }));
@@ -445,6 +709,20 @@
         }
         listEl.appendChild(row);
       });
+    }
+
+    function makeWhatsAppBtn(a){
+      var digits = String(a.clientPhone || '').replace(/[^\d]/g, '');
+      var msg = 'Hi ' + (a.clientName || '') + ', this is The Beauty Lab confirming your ' +
+        (a.serviceName || 'appointment') + ' on ' + formatDate(a.date) + ' at ' + displayTime(a.startTime) + '. See you then!';
+      var link = document.createElement('a');
+      link.href = 'https://wa.me/' + digits + '?text=' + encodeURIComponent(msg);
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.className = 'icon-btn whatsapp-btn';
+      link.title = 'Message on WhatsApp';
+      link.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.6 6.3A8.86 8.86 0 0 0 12 4a8.9 8.9 0 0 0-7.7 13.3L3 21l3.8-1.2A8.9 8.9 0 0 0 12 21a8.9 8.9 0 0 0 8.9-8.9c0-2.4-.9-4.6-2.6-6.3zM12 19.3a7.4 7.4 0 0 1-3.8-1l-.3-.2-2.3.7.7-2.2-.2-.3A7.4 7.4 0 1 1 19.4 12 7.4 7.4 0 0 1 12 19.3zm4-5.5c-.2-.1-1.3-.6-1.5-.7s-.4-.1-.5.1-.6.7-.7.9-.3.2-.5.1a6 6 0 0 1-3-2.6c-.2-.4.2-.3.6-1.1.1-.1 0-.3 0-.4L9.6 8c-.2-.4-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2 4.7 4.7 0 0 0 1 2.4 10.6 10.6 0 0 0 4.3 3.8c1.5.6 1.5.4 1.8.4a1.5 1.5 0 0 0 1-.7 1.3 1.3 0 0 0 .1-.7c-.1-.1-.2-.2-.4-.3z"/></svg>';
+      return link;
     }
 
     function makeIconBtn(symbol, title, onClick, danger){
